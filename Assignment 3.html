@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bano Qabil</title>
+    <style>
+        /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+        }
+
+        /* ===== HEADER (ID) ===== */
+        #header {
+            background: #0d9488;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .logo span {
+            color: #facc15;
+        }
+
+        .menu a {
+            color: white;
+            margin: 0 12px;
+            text-decoration: none;
+        }
+        .menu a:hover {
+            color: #facc15;
+        }
+
+        .btn {
+            background: #facc15;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* ===== HERO (Class) ===== */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: #ccfbf1;
+        }
+        .hero h1 {
+            font-size: 40px;
+            color: #0f766e;
+        }
+        .hero h1 span {
+            background: #0f766e;
+            color: #facc15;
+            padding: 0 10px;
+            border-radius: 8px;
+        }
+        .hero p {
+            font-size: 18px;
+            color: #374151;
+            margin: 10px 0 25px;
+        }
+        .hero .btn-primary {
+            background: #0f766e;
+            color: white;
+            padding: 14px 40px;
+            border-radius: 40px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .hero .btn-primary:hover {
+            transform: translateY(-3px);
+        }
+
+        .hero-images img {
+            width: 250px;
+            height: 160px;
+            border-radius: 16px;
+            margin: 20px 10px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .hero-images img:hover {
+            transform: scale(1.04);
+        }
+
+        /* ===== STATS (ID) ===== */
+        #stats {
+            background: #0f766e;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        #stats h2 {
+            font-size: 32px;
+        }
+        #stats .sub {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .stats-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 20px 30px;
+            border-radius: 12px;
+            min-width: 100px;
+        }
+        .stat-item h3 {
+            font-size: 28px;
+            color: #facc15;
+        }
+        .stat-item p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* ===== SERVICES (Class) ===== */
+        .services {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+        }
+        .services h2 {
+            font-size: 32px;
+            color: #0f766e;
+        }
+        .services .sub {
+            color: #4b5563;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: #f8fafc;
+            max-width: 750px;
+            margin: 15px auto;
+            padding: 30px 25px;
+            border-radius: 16px;
+            border-left: 6px solid #0d9488;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            text-align: left;
+            transition: 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        .num {
+            font-size: 36px;
+            font-weight: bold;
+            color: #0d9488;
+            opacity: 0.2;
+            min-width: 50px;
+        }
+
+        .service-img img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #0d9488;
+            padding: 5px;
+            background: white;
+        }
+        .service-img img:hover {
+            transform: scale(1.1);
+        }
+
+        .service-text h3 {
+            color: #0f766e;
+            font-size: 20px;
+        }
+        .service-text p {
+            color: #4b5563;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* ===== ROADMAP (Class) ===== */
+        .roadmap {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f0fdf4;
+        }
+        .roadmap h2 {
+            font-size: 32px;
+            color: #0f766e;
+        }
+        .roadmap .sub {
+            color: #4b5563;
+            margin-bottom: 40px;
+        }
+
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .step {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .step:hover {
+            transform: translateY(-5px);
+        }
+        .step .snum {
+            background: #0d9488;
+            color: white;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            border-radius: 50%;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .step h4 {
+            color: #0f766e;
+        }
+        .step p {
+            color: #4b5563;
+            font-size: 14px;
+        }
+
+        /* ===== FOOTER (Tag) ===== */
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 40px 30px 20px;
+        }
+        .footer-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto 30px;
+        }
+        .footer-box h3, .footer-box h4 {
+            color: white;
+        }
+        .footer-box a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            margin: 6px 0;
+        }
+        .footer-box a:hover {
+            color: #facc15;
+        }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 20px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 700px) {
+            #header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .menu a {
+                margin: 0 8px;
+                font-size: 14px;
+            }
+            .hero h1 {
+                font-size: 28px;
+            }
+            .hero-images img {
+                width: 100%;
+                max-width: 280px;
+                height: auto;
+            }
+            .service-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .stats-box {
+                gap: 15px;
+            }
+            .stat-item {
+                min-width: 70px;
+                padding: 15px;
+            }
+            .roadmap-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 450px) {
+            .roadmap-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-box {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <div id="header">
+        <div class="logo">Bano <span>Qabil</span></div>
+        <div class="menu">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Courses</a>
+            <a href="#">Contact</a>
+        </div>
+        <div><button class="btn">Register</button></div>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <div class="hero">
+        <h1>Bano Qabil <span>Program</span></h1>
+        <p>Join thousands learning tech skills for free</p>
+        <a href="#" class="btn-primary">Get Started →</a>
+        <div class="hero-images">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhUcIKCKxtcsrugLXeFhBZA9J5sT_vmZb8XCHu2-nIHg&s=10" alt="Students">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPezvKA8oqCaTnJsviTDvxafA2Q-aDzcJNJDlhnI44pw&s=10" alt="Training">
+        </div>
+    </div>
+
+    <!-- ===== STATS ===== -->
+    <div id="stats">
+        <h2>Our Impact</h2>
+        <p class="sub">Transforming Lives Through Education</p>
+        <div class="stats-box">
+            <div class="stat-item"><h3>75K+</h3><p>Students</p></div>
+            <div class="stat-item"><h3>50+</h3><p>Facilities</p></div>
+            <div class="stat-item"><h3>06</h3><p>Centres</p></div>
+            <div class="stat-item"><h3>29</h3><p>Courses</p></div>
+            <div class="stat-item"><h3>100K+</h3><p>Employees</p></div>
+        </div>
+    </div>
+
+    <!-- ===== SERVICES ===== -->
+    <div class="services">
+        <h2>Our Services</h2>
+        <p class="sub">From learner to professional</p>
+
+        <!-- Service 1 -->
+        <div class="service-card">
+            <div class="num">01</div>
+            <div class="service-img">
+                <img src="https://banoqabil.pk/images/web.png" alt="IT">
+            </div>
+            <div class="service-text">
+                <h3>Advanced IT Training</h3>
+                <p>Master digital skills with our industry-aligned curriculum.</p>
+            </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card">
+            <div class="num">02</div>
+            <div class="service-img">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPezvKA8oqCaTnJsviTDvxafA2Q-aDzcJNJDlhnI44pw&s=10" alt="Incubation">
+            </div>
+            <div class="service-text">
+                <h3>Incubation Centre</h3>
+                <p>Build your portfolio with hands-on real projects.</p>
+            </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card">
+            <div class="num">03</div>
+            <div class="service-img">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhUcIKCKxtcsrugLXeFhBZA9J5sT_vmZb8XCHu2-nIHg&s=10" alt="Job">
+            </div>
+            <div class="service-text">
+                <h3>Dedicated Job Portal</h3>
+                <p>Connect with jobs, freelancing, and career coaching.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ROADMAP ===== -->
+    <div class="roadmap">
+        <h2>Your Path to Success</h2>
+        <p class="sub">8 steps to start your tech career</p>
+        <div class="roadmap-grid">
+            <div class="step"><span class="snum">1</span><h4>Register</h4><p>Online or at centers</p></div>
+            <div class="step"><span class="snum">2</span><h4>Test</h4><p>English, math, reasoning</p></div>
+            <div class="step"><span class="snum">3</span><h4>Interview</h4><p>Check your interest</p></div>
+            <div class="step"><span class="snum">4</span><h4>Deposit</h4><p>PKR 3,000 refundable</p></div>
+            <div class="step"><span class="snum">5</span><h4>Campus</h4><p>Choose nearest</p></div>
+            <div class="step"><span class="snum">6</span><h4>Classes</h4><p>Regular batches</p></div>
+            <div class="step"><span class="snum">7</span><h4>Exams</h4><p>Quizzes & projects</p></div>
+            <div class="step"><span class="snum">8</span><h4>Certificate</h4><p>At convocation</p></div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-box">
+            <div>
+                <h3>Bano Qabil</h3>
+                <p>Empowering youth with IT education.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">Courses</a>
+                <a href="#">Contact</a>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <p>📍 Karachi, Pakistan</p>
+                <p>📞 021-111-503-504</p>
+                <p>✉️ info@banoqabil.pk</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Bano Qabil. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

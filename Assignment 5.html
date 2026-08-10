@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumpay Banking - Smart Banking</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #f0f4f8;
+            color: #1a202c;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== HEADER ===== */
+        #header {
+            background: #0d9488;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .logo {
+            color: #fff;
+            font-size: 26px;
+            font-weight: 700;
+        }
+        .logo span {
+            color: #facc15;
+        }
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .menu a {
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+        .menu a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .btn-logout {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-logout:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            background: #0d9488;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0f766e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #0d9488;
+            color: #0d9488;
+        }
+        .btn-outline:hover {
+            background: #0d9488;
+            color: #fff;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 60px 30px;
+        }
+        .section-title {
+            font-size: 32px;
+            color: #0f766e;
+            margin-bottom: 10px;
+        }
+        .section-sub {
+            color: #4b5563;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        /* ===== CARDS ===== */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: #fff;
+            padding: 25px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            border-left: 5px solid #0d9488;
+            transition: 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+            color: #0f766e;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+        .card p {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .card .amount {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0f766e;
+        }
+        .card .badge {
+            display: inline-block;
+            background: #0d9488;
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* ===== TABLE ===== */
+        .table-wrap {
+            overflow-x: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: #0d9488;
+            color: #fff;
+            padding: 14px 18px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px 18px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        tr:hover td {
+            background: #f0fdf4;
+        }
+        .status-completed {
+            color: #0d9488;
+            font-weight: 600;
+        }
+        .status-pending {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        /* ===== FORM ===== */
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #2d3748;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0d9488;
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        /* ===== AUTH PAGES ===== */
+        .auth-box {
+            max-width: 420px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+        }
+        .auth-box .logo {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        .auth-box .logo p {
+            font-size: 14px;
+            color: #4b5563;
+            font-weight: normal;
+        }
+        .auth-box .btn {
+            width: 100%;
+            padding: 14px;
+        }
+        .auth-box .auth-footer {
+            text-align: center;
+            margin-top: 18px;
+            color: #4b5563;
+            font-size: 14px;
+        }
+        .auth-box .auth-footer a {
+            color: #0d9488;
+            font-weight: 600;
+        }
+        .auth-box .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        .error-msg {
+            color: #e74c3c;
+            font-size: 13px;
+            display: none;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #ccfbf1, #f0fdf4);
+            padding: 60px 30px;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            color: #0f766e;
+        }
+        .hero h1 span {
+            background: #0f766e;
+            color: #facc15;
+            padding: 0 12px;
+            border-radius: 8px;
+        }
+        .hero p {
+            font-size: 18px;
+            color: #4b5563;
+            max-width: 600px;
+            margin: 10px auto 25px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+        footer p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            #header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px;
+            }
+            .menu {
+                justify-content: center;
+            }
+            .menu a {
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+            .hero h1 {
+                font-size: 28px;
+            }
+            .section {
+                padding: 40px 15px;
+            }
+            .section-title {
+                font-size: 26px;
+            }
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            .auth-box {
+                margin: 30px 15px;
+                padding: 25px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 22px;
+            }
+            .menu a {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <div id="header">
+        <div class="logo">Lumpay <span>Bank</span></div>
+        <div class="menu" id="mainMenu">
+            <a href="#dashboard" onclick="showPage('dashboard')">Dashboard</a>
+            <a href="#accounts" onclick="showPage('dashboard')">Accounts</a>
+            <a href="#loans" onclick="showPage('dashboard')">Loans</a>
+            <a href="#cards" onclick="showPage('dashboard')">Cards</a>
+            <a href="#services" onclick="showPage('dashboard')">Services</a>
+            <a href="#security" onclick="showPage('dashboard')">Security</a>
+            <a href="#contact" onclick="showPage('dashboard')">Contact</a>
+        </div>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- LOGIN PAGE -->
+    <!-- ========================================== -->
+    <div id="loginPage" class="auth-box">
+        <div class="logo">
+            Lumpay <span style="color:#facc15;background:#0f766e;padding:0 8px;border-radius:6px;">Bank</span>
+            <p>Secure • Smart • Simple</p>
+        </div>
+        <form onsubmit="login(event)">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="loginEmail" placeholder="user@lumpaybank.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter password" required>
+            </div>
+            <div id="loginError" class="error-msg">❌ Invalid email or password. Try: user@lumpaybank.com / 123456</div>
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+        <div class="auth-footer">
+            Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a><br>
+            <a href="#" onclick="alert('Check your email for reset link.')">Forgot Password?</a>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SIGNUP PAGE -->
+    <!-- ========================================== -->
+    <div id="signupPage" class="auth-box" style="display:none;">
+        <div class="logo">
+            Lumpay <span style="color:#facc15;background:#0f766e;padding:0 8px;border-radius:6px;">Bank</span>
+            <p>Create your free account</p>
+        </div>
+        <form onsubmit="signup(event)">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="signupName" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="signupEmail" placeholder="john@example.com" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="signupPhone" placeholder="+92 300 1234567" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="signupPassword" placeholder="Min 6 characters" required>
+            </div>
+            <button type="submit" class="btn">Create Account</button>
+        </form>
+        <div class="auth-footer">
+            Already have an account? <a href="#" onclick="showLogin()">Sign In</a>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- DASHBOARD PAGE -->
+    <!-- ========================================== -->
+    <div id="dashboardPage" style="display:none;">
+
+        <!-- HERO -->
+        <div class="hero">
+            <h1>Welcome back, <span id="userName">User</span> 👋</h1>
+            <p>Your AI-powered banking dashboard. Manage your finances smarter.</p>
+        </div>
+
+        <!-- ACCOUNTS -->
+        <div class="section" id="accounts">
+            <h2 class="section-title">Your Accounts</h2>
+            <p class="section-sub">Real-time balances &amp; overview</p>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>💳 Checking</h3>
+                    <div class="amount">$4,250.00</div>
+                    <p>Account # •• 8842</p>
+                </div>
+                <div class="card">
+                    <h3>🏦 Savings</h3>
+                    <div class="amount">$12,800.00</div>
+                    <p>Account # •• 3317</p>
+                </div>
+                <div class="card">
+                    <h3>💼 Business</h3>
+                    <div class="amount">$8,450.00</div>
+                    <p>Account # •• 5591</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRANSACTIONS -->
+        <div class="section">
+            <h2 class="section-title">Recent Transactions</h2>
+            <p class="section-sub">Your latest 5 transactions</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2026-08-10</td>
+                            <td>Salary Deposit</td>
+                            <td>+$3,200.00</td>
+                            <td class="status-completed">✅ Completed</td>
+                        </tr>
+                        <tr>
+                            <td>2026-08-09</td>
+                            <td>Amazon Purchase</td>
+                            <td>-$127.50</td>
+                            <td class="status-completed">✅ Completed</td>
+                        </tr>
+                        <tr>
+                            <td>2026-08-08</td>
+                            <td>Netflix Subscription</td>
+                            <td>-$15.99</td>
+                            <td class="status-pending">⏳ Pending</td>
+                        </tr>
+                        <tr>
+                            <td>2026-08-07</td>
+                            <td>Transfer to Savings</td>
+                            <td>-$500.00</td>
+                            <td class="status-completed">✅ Completed</td>
+                        </tr>
+                        <tr>
+                            <td>2026-08-06</td>
+                            <td>Freelance Payment</td>
+                            <td>+$850.00</td>
+                            <td class="status-completed">✅ Completed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- LOANS -->
+        <div class="section" id="loans">
+            <h2 class="section-title">Loans</h2>
+            <p class="section-sub">Pre-approved loan offers just for you</p>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>🏠 Home Loan</h3>
+                    <p>Up to $250,000</p>
+                    <p style="color:#0f766e;font-weight:bold;">Rate: 5.2% APR</p>
+                    <span class="badge">Pre-Approved</span>
+                </div>
+                <div class="card">
+                    <h3>🚗 Auto Loan</h3>
+                    <p>Up to $50,000</p>
+                    <p style="color:#0f766e;font-weight:bold;">Rate: 6.8% APR</p>
+                    <span class="badge">Pre-Approved</span>
+                </div>
+                <div class="card">
+                    <h3>📚 Education Loan</h3>
+                    <p>Up to $30,000</p>
+                    <p style="color:#0f766e;font-weight:bold;">Rate: 4.5% APR</p>
+                    <span class="badge">Apply Now</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CREDIT CARDS -->
+        <div class="section" id="cards">
+            <h2 class="section-title">Credit Cards</h2>
+            <p class="section-sub">Choose the card that fits your lifestyle</p>
+            <div class="grid-3">
+                <div class="card" style="border-left-color:#facc15;">
+                    <h3>💳 Platinum</h3>
+                    <p>Limit: $15,000</p>
+                    <p>3% cashback on all purchases</p>
+                </div>
+                <div class="card" style="border-left-color:#facc15;">
+                    <h3>💳 Gold</h3>
+                    <p>Limit: $8,000</p>
+                    <p>2% cashback + travel insurance</p>
+                </div>
+                <div class="card" style="border-left-color:#facc15;">
+                    <h3>💳 Business</h3>
+                    <p>Limit: $25,000</p>
+                    <p>4% travel points + expense tracking</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SERVICES -->
+        <div class="section" id="services">
+            <h2 class="section-title">AI-Powered Services</h2>
+            <p class="section-sub">Smart banking solutions powered by lumpay</p>
+            <div class="grid-4">
+                <div class="card">
+                    <h3>🤖 lum Advisor</h3>
+                    <p>Smart investment recommendations based on your goals.</p>
+                </div>
+                <div class="card">
+                    <h3>🔒 Fraud Detection</h3>
+                    <p>Real-time AI monitoring to protect your transactions.</p>
+                </div>
+                <div class="card">
+                    <h3>📊 Financial Planning</h3>
+                    <p>AI-driven insights to help you save more and spend wisely.</p>
+                </div>
+                <div class="card">
+                    <h3>🌐 Global Transfers</h3>
+                    <p>Instant cross-border payments with low fees.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="section" id="security">
+            <h2 class="section-title">Security</h2>
+            <p class="section-sub">Your data and money are safe with us</p>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>🛡️ Two-Factor Auth</h3>
+                    <p>Extra layer of security for your account.</p>
+                </div>
+                <div class="card">
+                    <h3>🔐 End-to-End Encryption</h3>
+                    <p>All your data is encrypted and secure.</p>
+                </div>
+                <div class="card">
+                    <h3>🕵️ AI Threat Detection</h3>
+                    <p>24/7 monitoring to detect suspicious activity.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="section" id="contact">
+            <h2 class="section-title">Contact Us</h2>
+            <p class="section-sub">We're here to help 24/7</p>
+            <form style="max-width:600px;margin:auto;" onsubmit="alert('✅ Message sent! We\'ll get back to you soon.');return false;">
+                <div class="form-group">
+                    <label>Your Email</label>
+                    <input type="email" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" placeholder="What's this about?" required>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea placeholder="Write your message here..." required></textarea>
+                </div>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>&copy; 2026 AI Banking. All rights reserved. Powered by Artificial Intelligence.</p>
+        </footer>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================================== -->
+    <script>
+        // ===== LOGIN =====
+        function login(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPassword').value;
+
+            if (email === 'user@lumpaybank.com' && pass === '123456') {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('signupPage').style.display = 'none';
+                document.getElementById('dashboardPage').style.display = 'block';
+                document.getElementById('userName').innerText = 'User';
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        // ===== SIGNUP =====
+        function signup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            if (name) {
+                alert('✅ Account created successfully for ' + name + '! Please login.');
+                showLogin();
+            } else {
+                alert('Please fill all fields.');
+            }
+        }
+
+        // ===== SHOW PAGES =====
+        function showLogin() {
+            document.getElementById('loginPage').style.display = 'block';
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('dashboardPage').style.display = 'none';
+        }
+
+        function showSignup() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signupPage').style.display = 'block';
+            document.getElementById('dashboardPage').style.display = 'none';
+        }
+
+        // ===== LOGOUT =====
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('loginPage').style.display = 'block';
+                document.getElementById('signupPage').style.display = 'none';
+                document.getElementById('dashboardPage').style.display = 'none';
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+                document.getElementById('loginError').style.display = 'none';
+            }
+        }
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('.menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId && targetId.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // ===== HIDE ERROR ON INPUT =====
+        document.getElementById('loginEmail').addEventListener('input', function() {
+            document.getElementById('loginError').style.display = 'none';
+        });
+        document.getElementById('loginPassword').addEventListener('input', function() {
+            document.getElementById('loginError').style.display = 'none';
+        });
+    </script>
+
+</body>
+</html>
