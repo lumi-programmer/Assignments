@@ -1,202 +1,418 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Assignment 1</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>RECIPE WEBSITE</title>
+
+    <style>
+       
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #ffffff;
+            color: #2d2d2d;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .header {
+            background: #9465b3;
+            padding: 28px 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid #bf98e0;
+        }
+
+        .header h1 {
+            font-size: 40px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .header h1 span {
+            color: #ec9ed2;
+        }
+
+        .header p {
+            color: #ec9ed2;
+            font-size: 17px;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        .search {
+            margin-top: 14px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .search input {
+            padding: 10px 20px;
+            width: 300px;
+            border: 2px solid #bf98e0;
+            font-size: 15px;
+            font-family: Georgia, serif;
+            background: #ffffff;
+        }
+
+        .search input:focus {
+            outline: none;
+            border-color: #9465b3;
+        }
+
+        .search button {
+            padding: 10px 26px;
+            background: #9465b3;
+            color: #fff;
+            border: 2px solid #bf98e0;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: Georgia, serif;
+            transition: 0.2s;
+        }
+
+        .search button:hover {
+            background: #bf98e0;
+        }
+
+
+        .nav {
+            background: #ffffff;
+            padding: 14px 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px 25px;
+            border-bottom: 2px solid #bf98e0;
+        }
+
+        .nav a {
+            color: #9465b3;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .nav a:hover {
+            border-bottom-color: #9465b3;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+        .hero {
+            background: #f9f5fc;
+            padding: 40px 30px;
+            text-align: center;
+            border: 2px solid #bf98e0;
+            margin-bottom: 40px;
+        }
+
+        .hero h2 {
+            font-size: 30px;
+            color: #9465b3;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #555;
+            margin-top: 6px;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #9465b3;
+            border-left: 5px solid #bf98e0;
+            padding-left: 14px;
+            margin: 38px 0 22px;
+        }
+
+     
+        .featured {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+            background: #f9f5fc;
+            padding: 30px;
+            border: 2px solid #bf98e0;
+            margin-bottom: 40px;
+            align-items: center;
+        }
+
+        .featured img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border: 2px solid #bf98e0;
+        }
+
+        .featured h2 {
+            font-size: 26px;
+            color: #9465b3;
+            margin-bottom: 8px;
+        }
+
+        .featured p {
+            color: #444;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .featured a {
+            display: inline-block;
+            margin-top: 14px;
+            background: #9465b3;
+            color: #fff;
+            padding: 10px 28px;
+            font-weight: 600;
+            border: 2px solid #bf98e0;
+            transition: 0.2s;
+        }
+
+        .featured a:hover {
+            background: #bf98e0;
+        }
+
+    
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 28px;
+            margin: 20px 0 10px;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 2px solid #bf98e0;
+            padding: 18px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            background: #f9f5fc;
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border: 2px solid #bf98e0;
+        }
+
+        .card h3 {
+            font-size: 19px;
+            color: #9465b3;
+            margin: 12px 0 6px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .card a {
+            display: inline-block;
+            background: #9465b3;
+            color: #fff;
+            padding: 7px 20px;
+            font-weight: 600;
+            border: 2px solid #bf98e0;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .card a:hover {
+            background: #bf98e0;
+        }
+
+   
+        .follow {
+            background: #9465b3;
+            padding: 28px 20px;
+            text-align: center;
+            border: 2px solid #bf98e0;
+            margin: 38px 0 10px;
+        }
+
+        .follow h2 {
+            font-size: 26px;
+            color: #ffffff;
+        }
+
+        .follow p {
+            font-size: 18px;
+            color: #ec9ed2;
+            margin: 4px 0 12px;
+        }
+
+        .follow a {
+            display: inline-block;
+            background: #ffffff;
+            color: #9465b3;
+            padding: 10px 32px;
+            font-weight: 700;
+            border: 2px solid #bf98e0;
+            transition: 0.2s;
+        }
+
+        .follow a:hover {
+            background: #ec9ed2;
+            color: #fff;
+        }
+
+        .footer {
+            background: #9465b3;
+            color: #ec9ed2;
+            text-align: center;
+            padding: 20px;
+            border-top: 3px solid #bf98e0;
+            margin-top: 50px;
+        }
+
+        .footer p {
+            font-size: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 30px;
+            }
+            .featured {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            .featured img {
+                height: 200px;
+            }
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .section-title {
+                font-size: 22px;
+            }
+            .hero h2 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .container {
+                padding: 0 14px;
+            }
+            .hero {
+                padding: 24px 16px;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <h1>HTML Practice Assignment</h1>
+
+    <header class="header">
+        <h1>🌱 Veg<span>ify</span></h1>
+        <p>A blog template made for food influencers</p>
+        <div class="search">
+            <input type="text" placeholder="Search for a recipe..." />
+            <button>Search</button>
+        </div>
+    </header>
 
    
-    <h2>Q1. Basic HTML Structure</h2>
-    <h3>Welcome to Web Development</h3>
-    <h3>HTML Basics</h3>
-    <p>HTML stands for HyperText Markup Language. It is the standard language for creating web pages.</p>
-    <h2>CSS & JavaScript</h2>
-    <p>CSS styles the page, while JavaScript adds interactivity and dynamic features.</p>
-    <hr>
+    <nav class="nav">
+        <a href="#">Home</a>
+        <a href="#">Recipes</a>
+        <a href="#">Categories</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
 
-     <br><hr><br>
-    <h2>Q2. Images</h2>
-    <h3>Local Image</h3>
-    <img src="images.png" alt="Local photo" width="300" height="200">
-    <h3>Online Image</h3>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhUcIKCKxtcsrugLXeFhBZA9J5sT_vmZb8XCHu2-nIHg&s=10" alt="Online image" width="300" height="200">
- 
+    <div class="container">
 
-    <br><hr><br>
-    <h2>Q3. Unordered List</h2>
-    <h3>My 5 Favorite Foods</h3>
-    <ul style="list-style-type: square;" >
-        <li>Pizza</li>
-        <li>Biryani</li>
-        <li>Sushi</li>
-        <li>Burgers</li>
-        <li>Ice Cream</li>
-    </ul>
-   
+      
+        <section class="hero">
+            <h2>🌿 Fresh & Flavorful</h2>
+            <p>Discover delicious plant-based recipes for every occasion</p>
+        </section>
 
-    <br><hr><br>
-    <h2>Q4. Ordered List</h2>
-    <h3>How to Make Tea</h3>
-    <ol >
-        <li>Boil water in a kettle.</li>
-        <li>Add tea leaves or tea bag to a cup.</li>
-        <li>Pour hot water into the cup.</li>
-        <li>Let it steep for 3-5 minutes.</li>
-        <li>Add sugar and milk (optional).</li>
-        <li>Stir and enjoy!</li>
-    </ol>
-  
-    <br><hr><br>
-    <h2>Q5. Description List</h2>
-    <h3>Web Development Terms</h3>
-    <dl>
-        <dt>HTML</dt>
-        <dd>HyperText Markup Language - structures web content.</dd>
-        <dt>CSS</dt>
-        <dd>Cascading Style Sheets - styles the appearance of web pages.</dd>
-        <dt>JavaScript</dt>
-        <dd>Programming language that adds interactivity to websites.</dd>
-    </dl>
-     
+        <section class="featured">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=400&fit=crop" alt="Pizza" />
+            <div>
+                <h2>🍍 Pineapple + Smoked Jackfruit Pizza</h2>
+                <p>Learn how to make a perfect pizza. Pizza is a dish that has been around for centuries. It's a great way to enjoy a delicious meal with friends. This plant-based version uses smoked jackfruit for a meaty texture and pineapple for a sweet tang.</p>
+                <a href="#">View Full Recipe →</a>
+            </div>
+        </section>
 
+        <h2 class="section-title">🍽️ Featured Recipes</h2>
+        <div class="grid">
 
-        <br><hr><br>
-    <h2>Q6. Table</h2>
-    <h3>Student Records</h3>
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>Roll Number</th>
-            <th>Student Name</th>
-            <th>Class</th>
-            <th>Marks</th>
-        </tr>
-        <tr>
-            <td>101</td>
-            <td>Aisha Khan</td>
-            <td>10th</td>
-            <td>95</td>
-        </tr>
-        <tr>
-            <td>102</td>
-            <td>Bilal Ahmed</td>
-            <td>10th</td>
-            <td>88</td>
-        </tr>
-        <tr>
-            <td>103</td>
-            <td>Fatima Noor</td>
-            <td>9th</td>
-            <td>92</td>
-        </tr>
-        <tr>
-            <td>104</td>
-            <td>Hamza Ali</td>
-            <td>10th</td>
-            <td>76</td>
-        </tr>
-        <tr>
-            <td>105</td>
-            <td>Zara Malik</td>
-            <td>9th</td>
-            <td>84</td>
-        </tr>
-    </table>
-  
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop" alt="Pizza" />
+                <h3>🍕 Classic Margherita Pizza</h3>
+                <p>Fresh tomatoes, mozzarella, and basil on a crispy crust.</p>
+                <a href="#">View Recipe</a>
+            </div>
 
-        <br><hr><br>
-    <h2>Q7. About Me</h2>
-    <h1>Your Name</h1>
-    <p>Hi, I am a web development enthusiast. I love learning new technologies and building cool projects. This is a little about me.</p>
-    <img src="your-photo.jpg" alt="My photo" width="200" height="200">
-    <h3>My Hobbies</h3>
-    <ul>
-        <li>Reading books</li>
-        <li>Playing cricket</li>
-        <li>Watching movies</li>
-        <li>Traveling</li>
-    </ul>
-    <h3>Educational Details</h3>
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>Degree</th>
-            <th>Institution</th>
-            <th>Year</th>
-        </tr>
-        <tr>
-            <td>Matriculation</td>
-            <td>City School</td>
-            <td>2026</td>
-        </tr>
-        <tr>
-            <td>Intermediate</td>
-            <td>College Name</td>
-            <td>2026</td>
-        </tr>
-    
-    </table>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&h=300&fit=crop" alt="Biryani" />
+                <h3>🍛 Veggie Biryani</h3>
+                <p>Fragrant basmati rice layered with spiced vegetables and caramelized onions.</p>
+                <a href="#">View Recipe</a>
+            </div>
 
-        <br><hr><br>
-    <h3>My Skills</h3>
-    <ul>
-        <li>HTML</li>
-        <li>CSS</li>
-        <li>JavaScript</li>
-        <li>Python</li>
-    </ul>
-    <h3>Contact Information</h3>
-    <ul>
-        <li>Email: myemail@example.com</li>
-        <li>Phone: 123-456-7890</li>
-        <li>Location: my City, Country</li>
-    </ul>
-    
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=400&h=300&fit=crop" alt="Pasta" />
+                <h3>🍝 Creamy Tomato Pasta</h3>
+                <p>Al dente pasta in a rich and creamy tomato sauce with fresh basil.</p>
+                <a href="#">View Recipe</a>
+            </div>
 
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop" alt="Cake" />
+                <h3>🎂 Vanilla Dream Cake</h3>
+                <p>Moist and fluffy vanilla cake with silky buttercream frosting.</p>
+                <a href="#">View Recipe</a>
+            </div>
 
-        <br><hr><br>
-    <h2>Q8. Favorite City</h2>
-    <h1>Welcome to Istanbul</h1>
-    <h3>About Istanbul</h3>
-    <p>Istanbul is a city that bridges Europe and Asia, making it unique in the world. It is rich in history, culture, and delicious food.</p>
-    <p>The city was once the capital of the Byzantine and Ottoman empires, and today it is Turkey's largest city and cultural heart.</p>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhUcIKCKxtcsrugLXeFhBZA9J5sT_vmZb8XCHu2-nIHg&s=10" alt="Istanbul city view" width="400" height="250">
-    <h3>Famous Places to Visit</h3>
-    <ul>
-        <li>Hagia Sophia</li>
-        <li>Blue Mosque</li>
-        <li>Topkapi Palace</li>
-        <li>Grand Bazaar</li>
-        <li>Bosphorus Strait</li>
-    </ul>
-    <br><br>
-    <h3>Interesting Facts About Istanbul</h3>
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>Fact</th>
-            <th>Detail</th>
-        </tr>
-        <tr>
-            <td>Continent</td>
-            <td>Spans both Europe and Asia</td>
-        </tr>
-        <tr>
-            <td>Population</td>
-            <td>Over 15 million</td>
-        </tr>
-        <tr>
-            <td>Old Name</td>
-            <td>Constantinople</td>
-        </tr>
-        <tr>
-            <td>Famous Food</td>
-            <td>Kebabs, Baklava, Turkish Tea</td>
-        </tr>
-        <tr>
-            <td>Landmark</td>
-            <td>Hagia Sophia is over 1,400 years old</td>
-        </tr>
-    </table>
+        </div>
+
+        <section class="follow">
+            <h2>📸 Follow us on Instagram</h2>
+            <p>@RECIPE</p>
+            <a href="#">Follow Now</a>
+        </section>
+
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>🌱 RECIPE WEBSITE © 2026 · Made with ❤️ for food lovers</p>
+    </footer>
 
 </body>
 </html>
