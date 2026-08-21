@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LumiBMI Calculator Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0b1120;
+            --bg-secondary: #131e33;
+            --bg-card: #1a2a4a;
+            --bg-input: #0f1a30;
+            --bg-btn: #22c55e;
+            --bg-btn-hover: #16a34a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-white: #ffffff;
+            --border-color: #2a3a5e;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            --radius: 20px;
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f0f4f8;
+            --bg-secondary: #ffffff;
+            --bg-card: #e8ecf1;
+            --bg-input: #dce2ea;
+            --bg-btn: #22c55e;
+            --bg-btn-hover: #16a34a;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-white: #1a202c;
+            --border-color: #cbd5e0;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="blue"] {
+            --bg-primary: #0c142b;
+            --bg-secondary: #162050;
+            --bg-card: #1a2a6a;
+            --bg-input: #0f1a4a;
+            --bg-btn: #3b82f6;
+            --bg-btn-hover: #2563eb;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-white: #ffffff;
+            --border-color: #2a3a7a;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        [data-theme="green"] {
+            --bg-primary: #0a1a10;
+            --bg-secondary: #0f2a18;
+            --bg-card: #1a3a20;
+            --bg-input: #0f2a14;
+            --bg-btn: #22c55e;
+            --bg-btn-hover: #16a34a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-white: #ffffff;
+            --border-color: #2a4a30;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--bg-secondary);
+            padding: 28px 24px 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--bg-btn), transparent);
+            opacity: 0.6;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .brand span {
+            color: var(--bg-btn);
+        }
+
+        .controls {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .controls select {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition);
+            height: 30px;
+        }
+
+        .controls select:focus {
+            outline: none;
+            border-color: var(--bg-btn);
+        }
+
+        .controls select option {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .machine {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 24px 20px 20px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .machine .weight-value {
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--text-white);
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            line-height: 1;
+            transition: var(--transition);
+        }
+
+        .machine .weight-unit {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        .machine .weight-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .machine .status-badge {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            background: var(--bg-btn);
+            color: #1e293b;
+            transition: var(--transition);
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .input-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border-color: var(--bg-btn);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+        }
+
+        .input-field input::placeholder {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .btn-calculate {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-btn);
+            color: #1e293b;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-calculate:hover {
+            background: var(--bg-btn-hover);
+            transform: scale(1.01);
+        }
+
+        .btn-calculate:active {
+            transform: scale(0.98);
+        }
+
+        .result-details {
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border-color);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .detail-item {
+            background: var(--bg-card);
+            padding: 14px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .detail-item .label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-item .value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 2px;
+        }
+
+        .range-indicator {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .range-indicator .range-bar {
+            display: flex;
+            height: 10px;
+            border-radius: 30px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .range-indicator .range-bar .segment {
+            flex: 1;
+            height: 100%;
+        }
+
+        .segment-underweight {
+            background: #f59e0b;
+        }
+        .segment-normal {
+            background: #22c55e;
+        }
+        .segment-overweight {
+            background: #f97316;
+        }
+        .segment-obese {
+            background: #ef4444;
+        }
+
+        .range-indicator .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .range-indicator .pointer {
+            text-align: center;
+            margin-top: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 16px 24px;
+            }
+            .brand {
+                font-size: 18px;
+            }
+            .machine .weight-value {
+                font-size: 40px;
+            }
+            .input-group {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .result-details {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .detail-item .value {
+                font-size: 16px;
+            }
+            .controls select {
+                font-size: 10px;
+                padding: 2px 8px;
+                height: 26px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .machine .weight-value {
+                font-size: 32px;
+            }
+            .result-details {
+                grid-template-columns: 1fr;
+            }
+            .brand {
+                font-size: 16px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-btn);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <div class="brand">Lumi BMI <span>Pro</span></div>
+            <div class="controls">
+                <select id="themeSelect" aria-label="Theme">
+                    <option value="dark">🌙 Dark</option>
+                    <option value="light">☀️ Light</option>
+                    <option value="blue">🔵 Blue</option>
+                    <option value="green">🟢 Green</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="machine" id="machineDisplay">
+            <div class="weight-value" id="bmiValue">0.0</div>
+            <div class="weight-unit">BMI</div>
+            <div class="weight-label">Your Body Mass Index</div>
+            <div class="status-badge" id="statusBadge">Enter your details</div>
+        </div>
+
+        <div class="input-group">
+            <div class="input-field">
+                <label for="weight">Weight (kg)</label>
+                <input type="number" id="weight" placeholder="e.g., 70" min="10" max="300" step="0.1" />
+            </div>
+            <div class="input-field">
+                <label for="height">Height (cm)</label>
+                <input type="number" id="height" placeholder="e.g., 175" min="50" max="300" step="0.1" />
+            </div>
+        </div>
+
+        <button class="btn-calculate" onclick="calculateBMI()">Calculate BMI</button>
+
+        <div class="result-details" id="resultDetails">
+            <div class="detail-item">
+                <div class="label">BMI</div>
+                <div class="value" id="detailBmi">--</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Category</div>
+                <div class="value" id="detailCategory">--</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Weight Status</div>
+                <div class="value" id="detailStatus">--</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Ideal Range</div>
+                <div class="value" id="detailRange">--</div>
+            </div>
+        </div>
+
+        <div class="range-indicator">
+            <div class="range-bar">
+                <div class="segment segment-underweight"></div>
+                <div class="segment segment-normal"></div>
+                <div class="segment segment-overweight"></div>
+                <div class="segment segment-obese"></div>
+            </div>
+            <div class="range-labels">
+                <span>Underweight</span>
+                <span>Normal</span>
+                <span>Overweight</span>
+                <span>Obese</span>
+            </div>
+            <div class="pointer" id="rangePointer">⬇️ Your BMI position</div>
+        </div>
+
+    </div>
+
+    <script>
+        const weightInput = document.getElementById('weight');
+        const heightInput = document.getElementById('height');
+        const bmiValue = document.getElementById('bmiValue');
+        const statusBadge = document.getElementById('statusBadge');
+        const detailBmi = document.getElementById('detailBmi');
+        const detailCategory = document.getElementById('detailCategory');
+        const detailStatus = document.getElementById('detailStatus');
+        const detailRange = document.getElementById('detailRange');
+        const rangePointer = document.getElementById('rangePointer');
+
+        const themeSelect = document.getElementById('themeSelect');
+        themeSelect.addEventListener('change', function() {
+            document.documentElement.setAttribute('data-theme', this.value);
+        });
+
+        function calculateBMI() {
+            const weight = parseFloat(weightInput.value);
+            const heightCm = parseFloat(heightInput.value);
+
+            if (isNaN(weight) || isNaN(heightCm) || weight <= 0 || heightCm <= 0) {
+                bmiValue.textContent = '⚠️';
+                statusBadge.textContent = 'Invalid Input';
+                statusBadge.style.background = '#ef4444';
+                detailBmi.textContent = '--';
+                detailCategory.textContent = '--';
+                detailStatus.textContent = '--';
+                detailRange.textContent = '--';
+                rangePointer.textContent = '⬇️ Enter valid weight & height';
+                return;
+            }
+
+            const heightM = heightCm / 100;
+            const bmi = weight / (heightM * heightM);
+            const bmiRounded = Math.round(bmi * 10) / 10;
+
+            let category = '';
+            let status = '';
+            let color = '';
+            let range = '';
+
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                status = '⬆️ You may need to gain weight';
+                color = '#f59e0b';
+                range = '18.5 – 24.9';
+            } else if (bmi >= 18.5 && bmi < 25) {
+                category = 'Normal ✅';
+                status = '✅ Healthy weight range';
+                color = '#22c55e';
+                range = '18.5 – 24.9';
+            } else if (bmi >= 25 && bmi < 30) {
+                category = 'Overweight';
+                status = '⬇️ Consider adopting a healthier lifestyle';
+                color = '#f97316';
+                range = '18.5 – 24.9';
+            } else {
+                category = 'Obese';
+                status = '⚠️ Consult a healthcare professional';
+                color = '#ef4444';
+                range = '18.5 – 24.9';
+            }
+
+            bmiValue.textContent = bmiRounded;
+            statusBadge.textContent = category;
+            statusBadge.style.background = color;
+            statusBadge.style.color = '#ffffff';
+
+            detailBmi.textContent = bmiRounded;
+            detailCategory.textContent = category;
+            detailStatus.textContent = status;
+            detailRange.textContent = range;
+
+            let pointerPosition = '⬇️ Your BMI position';
+            if (bmi < 18.5) {
+                pointerPosition = '⬇️ Underweight Range';
+            } else if (bmi >= 18.5 && bmi < 25) {
+                pointerPosition = '⬇️ Normal Range ✅';
+            } else if (bmi >= 25 && bmi < 30) {
+                pointerPosition = '⬇️ Overweight Range';
+            } else {
+                pointerPosition = '⬇️ Obese Range';
+            }
+            rangePointer.textContent = pointerPosition;
+        }
+
+        weightInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') calculateBMI();
+        });
+        heightInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') calculateBMI();
+        });
+
+        document.documentElement.setAttribute('data-theme', 'dark');
+    </script>
+
+</body>
+</html>
